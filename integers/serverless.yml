@@ -1,0 +1,53 @@
+org: akhtarja
+app: incrementer
+service: incrementer-integers
+
+plugins:
+  - IntegersDeploymentPlugin
+
+custom:
+  namespace: incrementer-integers-${self:custom.stage}
+  stage: ${opt:stage, self:provider.stage}
+  config_path: "../app/src/config"
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: us-east-1
+  profile: incrementer-${self:custom.stage}
+  stage: dev
+  environment:
+    TABLE_NAME: incrementer-${self:custom.stage}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Scan
+        - dynamodb:PutItem
+      Resource:
+        - arn:aws:dynamodb:*:*:table/${self:provider.environment.TABLE_NAME}
+
+functions:
+  next:
+    name: ${self:custom.namespace}-next
+    handler: handler.next
+    events:
+      - http:
+          path: next
+          method: get
+          cors: true
+  current:
+    name: ${self:custom.namespace}-current
+    handler: handler.current
+    events:
+      - http:
+          path: current
+          method: get
+          cors: true
+  reset:
+    name: ${self:custom.namespace}-reset
+    handler: handler.reset
+    events:
+      - http:
+          path: current
+          method: put
+          cors: true

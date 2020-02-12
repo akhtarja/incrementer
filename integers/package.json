@@ -1,0 +1,16 @@
+{
+  "name": "incrementer-integers",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Javed Akhtar",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.615.0",
+    "fs": "0.0.1-security",
+    "incrementer-lambda-utils": "file:../shared_modules/benchmark-lambda-utils"
+  }
+}

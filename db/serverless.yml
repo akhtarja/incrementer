@@ -1,0 +1,30 @@
+org: akhtarja
+app: incrementer
+service: incrementer-db
+
+custom:
+  namespace: incrementer-auth-${self:custom.stage}
+  stage: ${opt:stage, self:provider.stage}
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: us-east-1
+  profile: incrementer-${self:custom.stage}
+  stage: dev
+  environment:
+    TABLE_NAME: incrementer-${self:custom.stage}
+
+resources:
+  Resources:
+    IncrementerTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.TABLE_NAME}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST

@@ -1,0 +1,38 @@
+org: akhtarja
+app: incrementer
+service: incrementer-auth
+
+plugins:
+  - AuthDeploymentPlugin
+
+custom:
+  namespace: incrementer-auth-${self:custom.stage}
+  stage: ${opt:stage, self:provider.stage}
+  config_path: "../app/src/config"
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: us-east-1
+  profile: incrementer-${self:custom.stage}
+  stage: dev
+  environment:
+    GOOGLE_CLIENT_ID: ${env:GOOGLE_CLIENT_ID_${self:custom.stage}}
+    TABLE_NAME: incrementer-${self:custom.stage}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:PutItem
+        - dynamodb:GetItem
+      Resource:
+        - arn:aws:dynamodb:*:*:table/${self:provider.environment.TABLE_NAME}
+
+functions:
+  processLogin:
+    name: ${self:custom.namespace}-processLogin
+    handler: handler.processLogin
+    events:
+      - http:
+          path: process_login
+          method: put
+          cors: true
