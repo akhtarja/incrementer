@@ -14,7 +14,7 @@ const sendError = (err, callback) => {
   const errorReponse = {
     statusCode: err.statusCode || 400,
     headers: { 'Access-Control-Allow-Origin': '*' },
-    body: JSON.stringify({ error: err.message })
+    body: JSON.stringify(err)
   };
 
   callback(null, errorReponse);

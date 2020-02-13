@@ -19,14 +19,13 @@ class SignInContainer extends Component {
 
   successGoogle(response) {
     this.setState({ loading: true });
-
     authApi.loginSuccess(response)
       .then(response => {
         this.setState({
           loading: false,
           signedIn: true,
-          apiKey: response.body.apiKey,
-          user: response.body.profile.givenName
+          apiKey: response.data.apiKey,
+          user: response.data.profile.givenName
         });
       })
       .catch(error => {

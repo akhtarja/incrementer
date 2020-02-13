@@ -1,5 +1,3 @@
-org: akhtarja
-app: incrementer
 service: incrementer-integers
 
 plugins:

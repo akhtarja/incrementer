@@ -50,7 +50,6 @@ const processLogin = async (event, context, callback) => {
   try {
     const existingUser = await getUser(payload.id)
     const response = await createResponse(existingUser, payload)
-
     return sendResponse(response, callback);
   } catch (error) {
     return sendError({ error }, callback);

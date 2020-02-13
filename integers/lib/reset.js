@@ -39,11 +39,15 @@ const reset = async (event, context, callback) => {
   const apiKey = event.headers.Authorization.split(' ')[1];
   const newInteger = parseInt(event.body.split('=')[1], 10);
 
-  try {
-    await resetInteger(apiKey, newInteger);
-    sendResponse({ data: { current: newInteger } }, callback)
-  } catch (error) {
-    return sendError({ error }, callback);
+  if (newInteger >= 0) {
+    try {
+      await resetInteger(apiKey, newInteger);
+      return sendResponse({ data: { current: newInteger } }, callback)
+    } catch (error) {
+      return sendError({ error }, callback);
+    }
+  } else {
+    return sendError({ error: { message: 'new value must 0 or higher' } }, callback);
   }
 };
 

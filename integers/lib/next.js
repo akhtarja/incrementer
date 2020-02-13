@@ -40,7 +40,7 @@ const next = async (event, context, callback) => {
 
   try {
     const nextInteger = await getNextInteger(apiKey);
-    sendResponse({ data: { next: nextInteger } }, callback);
+    return sendResponse({ data: { next: nextInteger } }, callback);
   } catch (error) {
     return sendError({ error }, callback);
   }

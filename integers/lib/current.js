@@ -28,7 +28,7 @@ const current = async (event, context, callback) => {
 
   try {
     const currentInteger = await getCurrentInteger(apiKey);
-    sendResponse({ data: { current: currentInteger } }, callback);
+    return sendResponse({ data: { current: currentInteger } }, callback);
   } catch (error) {
     return sendError({ error }, callback);
   }
