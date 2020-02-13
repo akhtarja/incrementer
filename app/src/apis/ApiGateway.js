@@ -1,12 +1,8 @@
 import fetch from 'node-fetch';
 
 const handleStatusCode = response => {
-  switch (response.status) {
-    case 200:
-      return response;
-    default:
-      throw new Error(response);
-  }
+  if (response.status === 200) return response;
+  throw new Error(response);
 };
 
 const PublicApiGateway = {

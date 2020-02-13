@@ -1,5 +1,7 @@
 # Incrementer.
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=akhtarja_incrementer&metric=alert_status)](https://sonarcloud.io/dashboard?id=akhtarja_incrementer)
+
 ## Notes
 This application is a REST service that allows users to register using their Google account in exchange for an API key, which allows access to the following Incrementer API endpoints:
 
